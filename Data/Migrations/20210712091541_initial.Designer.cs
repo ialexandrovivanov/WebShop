@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebShop.Data;
 
 namespace WebShop.Data.Migrations
 {
     [DbContext(typeof(WebShopDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210712091541_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,25 +152,7 @@ namespace WebShop.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebShop.Data.DbModels.Order", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.DbModels.Pair", b =>
+            modelBuilder.Entity("WebShop.Data.DbModels.Item", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -176,9 +160,6 @@ namespace WebShop.Data.Migrations
                     b.Property<string>("Brand")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -230,6 +211,24 @@ namespace WebShop.Data.Migrations
                     b.HasIndex("ShopingCartId");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("WebShop.Data.DbModels.Order", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("WebShop.Data.DbModels.ShopingCart", b =>
@@ -369,16 +368,7 @@ namespace WebShop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebShop.Data.DbModels.Order", b =>
-                {
-                    b.HasOne("WebShop.Data.DbModels.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebShop.Data.DbModels.Pair", b =>
+            modelBuilder.Entity("WebShop.Data.DbModels.Item", b =>
                 {
                     b.HasOne("WebShop.Data.DbModels.Order", null)
                         .WithMany("Items")
@@ -387,6 +377,15 @@ namespace WebShop.Data.Migrations
                     b.HasOne("WebShop.Data.DbModels.ShopingCart", null)
                         .WithMany("Items")
                         .HasForeignKey("ShopingCartId");
+                });
+
+            modelBuilder.Entity("WebShop.Data.DbModels.Order", b =>
+                {
+                    b.HasOne("WebShop.Data.DbModels.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebShop.Data.DbModels.ShopingCart", b =>
