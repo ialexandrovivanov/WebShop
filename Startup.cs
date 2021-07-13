@@ -61,6 +61,7 @@ namespace WebShop
             services.AddTransient<UserManager<User>, UserManager<User>>();
             services.AddTransient<ICustomEmailSender, EmailSender>();
             services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IConfirmEmailService, ConfirmEmailService>();
             services.AddTransient<SignInManager<User>, SignInManager<User>>();
         }
 
